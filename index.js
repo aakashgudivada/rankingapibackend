@@ -24,7 +24,7 @@ app.get("/",(req,res)=>{
     res.status(200).json({"success":true,"timestamp":Date.now()})
 })
 
-app.get("/save",async(req,res) =>{
+app.post("/save",async(req,res) =>{
     const query = req.query;
     const body = req.body;
     const key = body.key;
