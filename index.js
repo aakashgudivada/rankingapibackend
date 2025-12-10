@@ -87,7 +87,7 @@ app.get('/roles', async (req, res) => {
         res.status(400).json({"error":"Please provide a groupId"})
     }
     try{
-        const response = await fetch("https://groups.roblox.com/v1/groups/9030397/roles");
+        const response = await fetch(`https://groups.roblox.com/v1/groups/${id}/roles`);
         if (!response.ok){
             res.json(response.status).json({"error":"Failed to fetch from API."});
         }
