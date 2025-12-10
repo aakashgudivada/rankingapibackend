@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const apikey = process.env.dbkey;
 
 const {Redis} = require("@upstash/redis");
-const { DataResolver } = require("discord.js");
 
 const client = new Redis({
     url: "https://calm-barnacle-35826.upstash.io",
