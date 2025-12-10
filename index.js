@@ -62,6 +62,24 @@ app.get("/get",async(req,res) =>{
     return;
 })
 
+app.get("/del",async(req,res) =>{
+    const query = req.query;
+    const body = req.body;
+    if (!body.key){res.status(400).json("Auth failed!")}
+    if (body.key == apikey){
+        const key = query.key;
+        if (key){
+            await client.del(key);
+            res.status(200).json({"success":true,"message":"key deleted"})
+        }else{
+            res.status(400).json({"success":false})
+        }
+    }else{
+        res.status(400)
+    }
+    return;
+})
+
 app.get('/roles', async (req, res) => {
     const query = req.query;
     const id = query.groupid;
