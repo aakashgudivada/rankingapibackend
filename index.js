@@ -1,0 +1,93 @@
+require("dotenv").config();
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+
+const apikey = process.env.dbkey;
+
+const {Redis} = require("@upstash/redis");
+const { DataResolver } = require("discord.js");
+
+const client = new Redis({
+    url: "https://calm-barnacle-35826.upstash.io",
+    token: "AYvyAAIncDEzNWU0MzY2ZWEzY2U0Y2UzOWQ0YmE0OTRkMmYzOTY2NXAxMzU4MjY"
+})
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.use(helmet());
+app.use(cors());
+
+// Parse incoming JSON requests
+app.use(express.json());
+
+app.get("/",(req,res)=>{
+    res.status(200).json({"success":true,"timestamp":Date.now()})
+})
+
+app.get("/save",async(req,res) =>{
+    const query = req.query;
+    const body = req.body;
+    const key = body.key;
+    if (!body.key){res.status(400).json("Auth failed!")};
+    if (key === apikey){
+        const providedkey = query.key;
+        const value = query.value;
+        if (value && providedkey){
+            await client.set(providedkey,value)
+            res.status(200).json({"success":true,"message":"Saved the data!"})
+        }else{
+            res.status(400).json({"success":false,"message":"Key and value not provided."})
+        }
+    }else{
+        res.status(400).json({"success":false,"message":"Auth failed!"})
+    }
+    return;
+})
+
+app.get("/get",async(req,res) =>{
+    const query = req.query;
+    const body = req.body;
+    if (!body.key){res.status(400).json("Auth failed!")}
+    if (body.key == apikey){
+        const key = query.key;
+        if (key){
+            const value = await client.get(key) || "none";
+            res.status(200).json({"success":true,"value":value})
+        }else{
+            res.status(400).json({"success":false})
+        }
+    }else{
+        res.status(400)
+    }
+    return;
+})
+
+app.get('/roles', async (req, res) => {
+    const query = req.query;
+    const id = query.groupid;
+    if (!id){
+        res.status(400).json({"error":"Please provide a groupId"})
+    }
+    try{
+        const response = await fetch("https://groups.roblox.com/v1/groups/9030397/roles");
+        if (!response.ok){
+            res.json(response.status).json({"error":"Failed to fetch from API."});
+        }
+        const data = await response.json();
+        res.json(data)
+    }catch(error){
+        console.log(error)
+    }
+});
+
+// 3. Handle 404 (Route not found)
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+
+// --- Start Server ---
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
