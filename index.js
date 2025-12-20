@@ -2,6 +2,11 @@ require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const groq = require("groq-sdk");
+
+const aiag = new groq.Groq({
+    apiKey: process.env.apikeygroq
+})
 
 const apikey = process.env.dbkey;
 
@@ -22,6 +27,27 @@ app.use(express.json());
 
 app.get("/",(req,res)=>{
     res.status(200).json({"success":true,"timestamp":Date.now()})
+})
+
+app.get("/response",async (req,res) =>{
+    try{
+        const response1 = await aiag.chat.completions.create({
+            "messages": [{
+                role: "user",
+                content: "hi"
+            }],
+            "model": "openai/gpt-oss-120b"
+        })
+        if (response1 && response1.choices){
+            res.json({"success":true,"message":response1.choices[0].message.content})
+        }else{
+            res.json({"success":false})
+        }
+    }catch(error){
+        res.json({"success":false});
+        console.log(error)
+    }
+    return
 })
 
 app.post("/save",async(req,res) =>{
