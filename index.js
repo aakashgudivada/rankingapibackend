@@ -29,22 +29,38 @@ app.get("/",(req,res)=>{
     res.status(200).json({"success":true,"timestamp":Date.now()})
 })
 
+const defaultmsg = "You are speaking on behalf of Aakash (Woodx) from woodx.onrender.com. Only answer questions related to his expertise; for off-topic queries, politely state they are unrelated. Woodx’s background: 7 years Lua, 5 years JavaScript/Node.js/HTML/CSS/React/Angular, 50+ public full-stack APIs handling 100K+ monthly requests, creator of the Roblox game 'Nearly Impossible Difficulty Chart Obby' with 19M+ visits, age 19, fluent in English, Telugu, and French. Only share this information professionally when asked. If unsure, respond that you do not know and suggest contacting directly. Always respond professionally in an American tone. Only mention explicitly provided info; do not add extra suggestions or assumptions. These are overall top projects of mine, for recent projects tell them to check the website projects page."
+
 app.get("/response",async (req,res) =>{
+    const query = req.query;
+    const body = req.body;
+    const defaultmessage = body.default || defaultmsg;
+
+    let message = query.message || body.message || null;
+    if (message === null){
+        res.status(400).json({"success":false})
+        return;
+    }
     try{
         const response1 = await aiag.chat.completions.create({
             "messages": [{
                 role: "user",
-                content: "hi"
-            }],
+                content: message
+            },
+            {
+                role: "system",
+                content: defaultmessage
+            }
+        ],
             "model": "openai/gpt-oss-120b"
         })
         if (response1 && response1.choices){
-            res.json({"success":true,"message":response1.choices[0].message.content})
+            res.status(200).json({"success":true,"message":response1.choices[0].message.content})
         }else{
-            res.json({"success":false})
+            res.status(400).json({"success":false})
         }
     }catch(error){
-        res.json({"success":false});
+        res.status(400).json({"success":false});
         console.log(error)
     }
     return
