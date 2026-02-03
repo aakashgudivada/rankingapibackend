@@ -76,7 +76,12 @@ app.post("/post", async (req, res) => {
         { content: message }) 
         res.status(200).json({ "success": true });
     } catch (error) {
-        res.status(500).send("Error");
+        console.error("Discord error:", {
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message
+        });
+        res.status(500).json({ success: false, error: error.response?.data || "Internal error" });
     }
 });
 
