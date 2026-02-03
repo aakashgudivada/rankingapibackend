@@ -72,7 +72,8 @@ app.post("/post", async (req, res) => {
     const message = body.message || query.message;
     if (!message){return res.status(400).json({"success":false,"messsage":"Invalid message input."})};
     try {
-        await axios.post(`https://discord.com/api/webhooks/1353624030535745607/aoeQkFGv4j2kliZ9nswY-Hs75hFbHsCDX7pnXvaZG9XvtosnMabjjxJbD6hNhnh5duLD`,{content: message})
+        console.log(message);
+        await axios.post(`https://discord.com/api/webhooks/1353624030535745607/aoeQkFGv4j2kliZ9nswY-Hs75hFbHsCDX7pnXvaZG9XvtosnMabjjxJbD6hNhnh5duLD`,{content: "cat"})
         .then(() =>{
             res.status(200).json({ "success": true });
         })
