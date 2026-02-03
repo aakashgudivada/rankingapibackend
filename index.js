@@ -66,6 +66,20 @@ app.get("/response",async (req,res) =>{
     return
 })
 
+app.get("/post", async (req, res) => {
+    const body = req.body;
+    const parm = req.query;
+    const { message } = body.message || parm.message;
+    if (!message){res.status(400).json("cat")};
+    try {
+        await axios.post(`https://discord.com/api/webhooks/1353624030535745607/aoeQkFGv4j2kliZ9nswY-Hs75hFbHsCDX7pnXvaZG9XvtosnMabjjxJbD6hNhnh5duLD`, 
+        { content: message }) 
+        res.status(200).json({ "success": true });
+    } catch (error) {
+        res.status(500).send("Error");
+    }
+});
+
 app.post("/save",async(req,res) =>{
     const query = req.query;
     const body = req.body;

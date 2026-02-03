@@ -20,10 +20,10 @@
         "cors": "^2.8.5",
         "dotenv": "^16.6.1",
         "express": "^4.22.1",
+        "groq-sdk": "latest",
         "helmet": "^7.2.0",
         "noblox": "^4.8.5",
-        "redis": "^5.10.0",
-        "groq-sdk": "latest"
+        "redis": "^5.10.0"
     },
     "devDependencies": {
         "nodemon": "^3.0.3"
