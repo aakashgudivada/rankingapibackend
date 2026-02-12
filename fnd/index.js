@@ -135,7 +135,7 @@ async function getData(googleid) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ key: googleid })
         });
-        const apiResult = await response.json();
+        var apiResult = await response.json();
         if (apiResult.success){
             apiResult = apiResult.data;
             signinbutton.textContent = apiResult.name;
