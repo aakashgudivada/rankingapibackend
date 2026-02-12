@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 const defaultPrompt = ""
 function getResponse(prompt){
     if (prompt){
