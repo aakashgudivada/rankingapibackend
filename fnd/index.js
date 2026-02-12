@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 const defaultPrompt = ""
 function getResponse(prompt){
     if (prompt){
