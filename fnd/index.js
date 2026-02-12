@@ -86,8 +86,11 @@ async function loginsignin(response){
         })
         const data = await result.json();
         if (data.success) {
+            console.log(data);
             document.cookie = `gid=${data.googleId}; path=/; max-age=2592000; SameSite=Strict`;
-            window.location.reload();
+            signinbutton.textContent = data.name;
+            profilepicture.src = data.image;
+            // window.location.reload();
         }
     }catch(error){
         console.log(error)
@@ -96,6 +99,7 @@ async function loginsignin(response){
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
+    console.log(document.cookie)
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
@@ -148,6 +152,7 @@ document.addEventListener("DOMContentLoaded",function(){
     })
 
     const gid = getCookie("gid");
+    console.log(gid);
     promptButton.addEventListener("click",async function(event){
         event.preventDefault();
         const usermessage = promptinput.value;
