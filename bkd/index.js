@@ -183,7 +183,7 @@ const googleAuthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 app.post("/auth/google", async (req, res) => {
     const token = req.body.token;
     try {
-        const ticket = await client.verifyIdToken({
+        const ticket = await googleAuthClient.verifyIdToken({
             idToken: token,
             audience: '743263269130-k3skhm0kenuou68gke23o8m7l34gb9e2.apps.googleusercontent.com', 
         });
