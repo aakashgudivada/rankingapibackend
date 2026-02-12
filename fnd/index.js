@@ -84,13 +84,14 @@ async function loginsignin(response){
             headers: {'Content-Type': "application/json"},
             body: JSON.stringify({'token':token})
         })
-        const data = await result.json();
+        var data = await result.json();
         if (data.success) {
+            data = data.user;
             console.log(data);
             document.cookie = `gid=${data.googleId}; path=/; max-age=2592000; SameSite=Strict`;
             signinbutton.textContent = data.name;
-            profilepicture.src = data.image;
-            // window.location.reload();
+            profilepicture.src = data.picture;
+            //  window.location.reload();
         }
     }catch(error){
         console.log(error)
