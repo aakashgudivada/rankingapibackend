@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 const defaultPrompt = ""
 function getResponse(prompt){
     if (prompt){
@@ -31,6 +33,8 @@ const elementsData = {
     "subtitle": {"Type":"p","UE":"None"}
 };
 const app = document.querySelector(".app");
+const signinbutton = document.getElementById("login");
+const profilepicture = document.getElementById("pp");
 
 function render(dictelements){
     if (dictelements){
@@ -83,7 +87,7 @@ async function loginsignin(response){
         })
         const data = await result.json();
         if (data.success) {
-            document.cookie = `user_name=${data.user.name}; path=/; max-age=604800; SameSite=Strict`;
+            document.cookie = `gid=${data.googleId}; path=/; max-age=2592000; SameSite=Strict`;
             window.location.reload();
         }
     }catch(error){
@@ -106,16 +110,36 @@ function promptsignin(){
     return;
 }
 
+
+async function getData(googleid) {
+    if (!googleid) return;
+    try {
+        const response = await fetch("https://rankingapibackend.onrender.com/gidverify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ key: googleid })
+        });
+        const apiResult = await response.json();
+        if (apiResult.success) {
+            const userData = JSON.parse(apiResult.value); 
+            signinbutton.textContent = userData.name;
+            profilepicture.src = userData.picture;
+        }
+    } catch (error) {
+        console.error("Failed to fetch user data:", error);
+    }
+}
+
 document.addEventListener("DOMContentLoaded",function(){
     const sidebarbutton = document.getElementById("sidebar");
     let toggled = false;
     const prompt = document.querySelector(".prompt");
     const promptinput = prompt.querySelector("input");
     const promptButton = prompt.querySelector("img");
-    const signinbutton = document.getElementById("login");
     promptsignin();
     signinbutton.addEventListener("click",function(event){
         event.preventDefault();
+        if (signinbutton.textContent !== "Log in"){return}
         google.accounts.id.prompt((notification) =>{
             if (notification.isNotDisplayed()){
                 console.log("One tap disabled, try another method for login.");
@@ -125,13 +149,13 @@ document.addEventListener("DOMContentLoaded",function(){
         return;
     })
 
-    const userName = getCookie("user_name");
+    const gid = getCookie("gid");
 
     if (userName) {
-        console.log("User is logged in as:", userName)
+        console.log("User is logged in as: ", gid);
+        getData(gid)
     }
     promptButton.addEventListener("click",async function(event){
-        console.log("uh")
         event.preventDefault();
         const usermessage = promptinput.value;
         const request = await groq.chat.completions.create({

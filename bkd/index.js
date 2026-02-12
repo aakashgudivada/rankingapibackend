@@ -143,6 +143,22 @@ app.get("/get",async(req,res) =>{
     return;
 })
 
+app.post("/gidverify",async(req,res) =>{
+    const body = req.body;
+    if (!body.key){res.status(400).json({"success":false})}
+    try{
+        const value = await client.get(`GID:${body.key}`) || "none";
+        if (value === "none"){
+            res.status(400).json({"success":false})
+        }else{
+            res.status(200).json({"success":true,"data":value})
+        }
+    }catch(error){
+        res.status(400).json({"success":false})
+    }
+    return;
+})
+
 app.get("/del",async(req,res) =>{
     const query = req.query;
     const body = req.body;
@@ -194,8 +210,14 @@ app.post("/auth/google", async (req, res) => {
             picture: payload.picture,
             googleId: payload.sub
         };
-        console.log("User details retrieved:", userDetails);
-        res.status(200).json({ success: true, user: userDetails });
+        const userPayload = {
+            name: payload.name,
+            email: payload.email,
+            picture: payload.picture,
+            last_login: new Date().toISOString()
+        };
+        await client.set(`GID:${payload.sub}`, JSON.stringify(userPayload),{ex: 2592000});
+        res.status(200).json({ success: true,user: userDetails});
     } catch (error) {
         console.error("Invalid Token:", error);
         res.status(401).json({ success: false, message: "Auth failed" });
