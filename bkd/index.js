@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const groq = require("groq-sdk");
 
 const path = require("path");
+const app = express();
 
 app.use(express.static(path.join(__dirname, '../fnd')));
 
@@ -25,8 +26,6 @@ const client = new Redis({
     url: "https://calm-barnacle-35826.upstash.io",
     token: "AYvyAAIncDEzNWU0MzY2ZWEzY2U0Y2UzOWQ0YmE0OTRkMmYzOTY2NXAxMzU4MjY"
 })
-
-const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(helmet());
 app.use(cors());
