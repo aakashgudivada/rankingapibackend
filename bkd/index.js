@@ -145,7 +145,7 @@ app.get("/get",async(req,res) =>{
 
 app.post("/gidverify",async(req,res) =>{
     const body = req.body;
-    if (!body.key){res.status(400).json({"success":false})}
+    if (!body.key){return res.status(400).json({"success":false})}
     try{
         const value = await client.get(`GID:${body.key}`) || "none";
         if (value === "none"){
