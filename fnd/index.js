@@ -73,23 +73,38 @@ render([
     }
 ])
 
+function loginsignin(response){
+    console.log(response)
+    return;
+}
+
+function promptsignin(){
+    google.accounts.id.initialize({
+        client_id: "743263269130-k3skhm0kenuou68gke23o8m7l34gb9e2.apps.googleusercontent.com",
+        callback: loginsignin,
+        use_fedcm_for_prompt: true
+    })
+    return;
+}
+
 document.addEventListener("DOMContentLoaded",function(){
-    fetch("https://rankingapibackend.onrender.com/")
-    .then((data) =>{
-        return data.json()
-    })
-    .then((data) => {
-        if (data.success === true){
-            console.log("Loaded website successfully!")
-        }
-    })
     const sidebarbutton = document.getElementById("sidebar");
     let toggled = false;
-
     const prompt = document.querySelector(".prompt");
     const promptinput = prompt.querySelector("input");
     const promptButton = prompt.querySelector("img");
-
+    const signinbutton = document.getElementById("login");
+    promptsignin();
+    signinbutton.addEventListener("click",function(event){
+        event.preventDefault();
+        google.accounts.id.prompt((notification) =>{
+            if (notification.isNotDisplayed()){
+                console.log("One tap disabled, try another method for login.");
+                alert("Login feature is currently disabled for security.")
+            }
+        })
+        return;
+    })
     promptButton.addEventListener("click",async function(event){
         console.log("uh")
         event.preventDefault();
