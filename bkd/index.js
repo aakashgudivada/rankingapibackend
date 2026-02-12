@@ -6,7 +6,7 @@ const groq = require("groq-sdk");
 
 const path = require("path");
 const app = express();
-
+const { OAuth2Client } = require('google-auth-library');
 app.use(express.static(path.join(__dirname, '../fnd')));
 
 // Tell the SERVER to send the main page when someone visits the domain
@@ -178,6 +178,7 @@ app.get('/roles', async (req, res) => {
         console.log(error)
     }
 });
+const googleAuthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 app.post("/auth/google", async (req, res) => {
     const token = req.body.token;
