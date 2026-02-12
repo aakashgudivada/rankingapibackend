@@ -136,10 +136,11 @@ async function getData(googleid) {
             body: JSON.stringify({ key: googleid })
         });
         const apiResult = await response.json();
+        console.log(apiResult);
         if (apiResult.success){ 
             signinbutton.textContent = apiResult.name;
             profilepicture.src = apiResult.picture;
-            roleSelector.innerHTML = userData.role || "Regular";
+            roleSelector.innerHTML = apiResult.role || "Regular";
             loggedin = true;
         }
     } catch (error) {
