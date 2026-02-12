@@ -136,8 +136,8 @@ async function getData(googleid) {
             body: JSON.stringify({ key: googleid })
         });
         const apiResult = await response.json();
-        console.log(apiResult);
-        if (apiResult.success){ 
+        if (apiResult.success){
+            apiResult = apiResult.data;
             signinbutton.textContent = apiResult.name;
             profilepicture.src = apiResult.picture;
             roleSelector.innerHTML = apiResult.role || "Regular";
