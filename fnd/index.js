@@ -136,12 +136,9 @@ async function getData(googleid) {
             body: JSON.stringify({ key: googleid })
         });
         const apiResult = await response.json();
-        if (apiResult.success) {
-            console.log("Existing data is");
-            console.log(apiResult);
-            const userData = JSON.parse(apiResult.value); 
-            signinbutton.textContent = userData.name;
-            profilepicture.src = userData.picture;
+        if (apiResult.success){ 
+            signinbutton.textContent = apiResult.name;
+            profilepicture.src = apiResult.picture;
             roleSelector.innerHTML = userData.role || "Regular";
             loggedin = true;
         }
