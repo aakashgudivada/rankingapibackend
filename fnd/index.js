@@ -88,7 +88,11 @@ async function loginsignin(response){
         if (data.success) {
             data = data.user;
             console.log(data);
-            document.cookie = `gid=${data.googleId}; path=/; max-age=2592000; SameSite=Strict`;
+            if (!data.googleId){
+                console.error("Missing googleId")
+                return
+            }
+            document.cookie = `gid=${encodeURIComponent(data.googleId)}; path=/; max-age=2592000; SameSite=Lax; Secure`;
             signinbutton.textContent = data.name;
             profilepicture.src = data.picture;
             //  window.location.reload();
@@ -100,9 +104,11 @@ async function loginsignin(response){
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
-    console.log(document.cookie)
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    if (parts.length === 2) {
+        return decodeURIComponent(parts.pop().split(';').shift());
+    }
+    return undefined;
 }
 
 function promptsignin(){

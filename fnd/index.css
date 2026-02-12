@@ -177,7 +177,7 @@ body{
 
 .account button,.account p{
     position: absolute;
-    width: 50%;
+    width: 70%;
     height: 40%;
     top: 10px;
     background: none;
@@ -189,6 +189,9 @@ body{
 
 .account button{
     left: 25%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    font-size: auto;
     cursor: pointer;
 }
 
