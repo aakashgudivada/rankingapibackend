@@ -148,11 +148,6 @@ document.addEventListener("DOMContentLoaded",function(){
     })
 
     const gid = getCookie("gid");
-
-    if (userName) {
-        console.log("User is logged in as: ", gid);
-        getData(gid)
-    }
     promptButton.addEventListener("click",async function(event){
         event.preventDefault();
         const usermessage = promptinput.value;

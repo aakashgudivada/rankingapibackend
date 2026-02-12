@@ -25,8 +25,8 @@ const apikey = process.env.dbkey;
 const {Redis} = require("@upstash/redis");
 
 const client = new Redis({
-    url: "https://calm-barnacle-35826.upstash.io",
-    token: "AYvyAAIncDEzNWU0MzY2ZWEzY2U0Y2UzOWQ0YmE0OTRkMmYzOTY2NXAxMzU4MjY"
+    url: "https://classic-gopher-15972.upstash.io",
+    token: process.env.rediskey
 })
 const PORT = process.env.PORT || 3000;
 app.use(helmet());
