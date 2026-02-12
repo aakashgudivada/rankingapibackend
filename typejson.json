@@ -1,0 +1,23 @@
+<h1 id="htitle">Hi, I'm an Artificial Intelligence & Game Developer.</h1>
+        <p id="utitle">You can explore my popular services, projects and open-source publications here! Please do not republish or repost as their as subjective to copyright and patent reserved.</p>
+        <button id="nbutton">Explore</button>
+        <section class="widgets">
+            <img src="src/imgs/widget01.png">
+            <section id="widget">
+                <p>The total gross views for all the rolled-out posts<3</p>
+                <h3>41.61 MILLION VIEWS+</h3>
+            </section>
+        </section>
+        <ul class="tags">
+            <p id="time">October 25, 2025</p>
+            <p id="genre">News</p>
+        </ul>
+        <h1 id="title">Introducing an All-new page</h1>
+        <h2 id="uc">The page which has every possible showable info</h2>
+        <li id="gap"></li>
+        <p id="desc">The ancient, gnarled oak tree stood sentinel over the whispering meadow, its branches reaching like arthritic fingers towards the pale, moonlit sky. A thick mist snaked through the tall grass, clinging to forgotten wildflowers and obscuring the path to the crumbling stone cottage nestled at the edge of the woods. A lone raven perched on the highest branch, its silhouette a jagged tear in the velvet darkness, watching with knowing eyes as a distant, mournful howl echoed through the stillness.</p>
+        <a href="" id="cc">The additional information can be explored at (https://linkedin.com).</a>
+        <img id="img" src="src/imgs/Screenshot 2025-10-27 203436.png" alt="img-from-src-server"></img>
+        <li id="gap"></li>
+        <p id="subtitle">Works in your flow</p>
+        <button id="nbutton">Show</button>

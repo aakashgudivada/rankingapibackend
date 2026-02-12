@@ -1,0 +1,5 @@
+// README //
+1. The project is a closed-source/proprietor only code - subjective to Copyright if stolen.
+2. The project is developed by Aakash Gudivada (also known as Woodx).
+3. The components are hosted on render hosting SSR - offering CSR and SSR on the web app for a seamless SPA (Single Page Application).
+4. The elements are embed as (img,h1,h2,subtitle,vid,gap,cc,desc,(ul class tags with time and genre ids p elements)).
