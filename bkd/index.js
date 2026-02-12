@@ -4,6 +4,15 @@ const cors = require('cors');
 const helmet = require('helmet');
 const groq = require("groq-sdk");
 
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, '../fnd')));
+
+// Tell the SERVER to send the main page when someone visits the domain
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, '../fnd/index.html'));
+});
+
 const aiag = new groq.Groq({
     apiKey: process.env.apikeygroq
 })

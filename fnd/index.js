@@ -10,7 +10,6 @@ function getResponse(prompt){
     return;
 }
 
-
 const classes = ["widgets"];
 const elementsData = {
     "htitle": {"Type":"h1","UE":"None"},
