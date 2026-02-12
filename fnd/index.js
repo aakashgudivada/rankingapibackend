@@ -125,7 +125,10 @@ function promptsignin(){
 }
 
 async function getData(googleid) {
-    if (!googleid) return;
+    if (!googleid){
+        console.log("No gid is found.");
+        return
+    };
     try {
         const response = await fetch("https://rankingapibackend.onrender.com/gidverify", {
             method: "POST",
@@ -134,6 +137,7 @@ async function getData(googleid) {
         });
         const apiResult = await response.json();
         if (apiResult.success) {
+            console.log("Existing data is");
             console.log(apiResult);
             const userData = JSON.parse(apiResult.value); 
             signinbutton.textContent = userData.name;
