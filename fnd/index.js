@@ -75,8 +75,7 @@ render([
     }
 ])
 
-async function loginsignin(res){
-    const response = JSON.parse(res)
+async function loginsignin(response){
     const token = response.credential;
     try {
         const result = await fetch("/auth/google",{
