@@ -216,7 +216,7 @@ app.post("/auth/google", async (req, res) => {
             picture: payload.picture,
             last_login: new Date().toISOString()
         };
-        await client.set(`GID:${payload.sub}`, JSON.stringify(userPayload),{ex: 2592000});
+        await client.set(`GID:${payload.sub}`, JSON.stringify(userPayload),{ex: 256000});
         res.status(200).json({ success: true,user: userDetails});
     } catch (error) {
         console.error("Invalid Token:", error);

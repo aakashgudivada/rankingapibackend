@@ -76,6 +76,7 @@ render([
 ])
 
 async function loginsignin(response){
+    console.log(response)
     const token = response.credential;
     try {
         const result = await fetch("/auth/google",{
@@ -107,7 +108,6 @@ function promptsignin(){
     })
     return;
 }
-
 
 async function getData(googleid) {
     if (!googleid) return;
