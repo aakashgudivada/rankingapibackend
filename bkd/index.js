@@ -208,7 +208,8 @@ app.post("/auth/google", async (req, res) => {
             email: payload.email,
             name: payload.name,
             picture: payload.picture,
-            googleId: payload.sub
+            googleId: payload.sub,
+            role: payload.email === "aakash.gudivada@gmail.com" ? "Developer" : "Regular"
         };
         const userPayload = {
             name: payload.name,

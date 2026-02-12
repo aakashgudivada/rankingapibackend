@@ -75,6 +75,9 @@ render([
     }
 ])
 
+const roleSelector = document.querySelector(".account").querySelector("p");
+var loggedin = false;
+
 async function loginsignin(response){
     console.log(response)
     const token = response.credential;
@@ -95,7 +98,8 @@ async function loginsignin(response){
             document.cookie = `gid=${encodeURIComponent(data.googleId)}; path=/; max-age=2592000; SameSite=Lax; Secure`;
             signinbutton.textContent = data.name;
             profilepicture.src = data.picture;
-            //  window.location.reload();
+            roleSelector.innerHTML = data.role || "Regular";
+            loggedin = true
         }
     }catch(error){
         console.log(error)
@@ -130,13 +134,17 @@ async function getData(googleid) {
         });
         const apiResult = await response.json();
         if (apiResult.success) {
+            console.log(apiResult);
             const userData = JSON.parse(apiResult.value); 
             signinbutton.textContent = userData.name;
             profilepicture.src = userData.picture;
+            roleSelector.innerHTML = userData.role || "Regular";
+            loggedin = true;
         }
     } catch (error) {
         console.error("Failed to fetch user data:", error);
     }
+    return;
 }
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -159,7 +167,7 @@ document.addEventListener("DOMContentLoaded",function(){
     })
 
     const gid = getCookie("gid");
-    console.log(gid);
+    getData(gid);
     promptButton.addEventListener("click",async function(event){
         event.preventDefault();
         const usermessage = promptinput.value;
