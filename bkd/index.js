@@ -179,6 +179,28 @@ app.get('/roles', async (req, res) => {
     }
 });
 
+app.post("/auth/google", async (req, res) => {
+    const token = req.body.token;
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: '743263269130-k3skhm0kenuou68gke23o8m7l34gb9e2.apps.googleusercontent.com', 
+        });
+        const payload = ticket.getPayload();
+        const userDetails = {
+            email: payload.email,
+            name: payload.name,
+            picture: payload.picture,
+            googleId: payload.sub
+        };
+        console.log("User details retrieved:", userDetails);
+        res.status(200).json({ success: true, user: userDetails });
+    } catch (error) {
+        console.error("Invalid Token:", error);
+        res.status(401).json({ success: false, message: "Auth failed" });
+    }
+});
+
 // 3. Handle 404 (Route not found)
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });

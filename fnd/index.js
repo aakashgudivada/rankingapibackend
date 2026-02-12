@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 const defaultPrompt = ""
 function getResponse(prompt){
     if (prompt){
@@ -73,9 +75,29 @@ render([
     }
 ])
 
-function loginsignin(response){
-    console.log(response)
-    return;
+async function loginsignin(res){
+    const response = JSON.parse(res)
+    const token = response.credential;
+    try {
+        const result = await fetch("/auth/google",{
+            method: "POST",
+            headers: {'Content-Type': "application/json"},
+            body: JSON.stringify({'token':token})
+        })
+        const data = await result.json();
+        if (data.success) {
+            document.cookie = `user_name=${data.user.name}; path=/; max-age=604800; SameSite=Strict`;
+            window.location.reload();
+        }
+    }catch(error){
+        console.log(error)
+    }
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 function promptsignin(){
@@ -105,6 +127,12 @@ document.addEventListener("DOMContentLoaded",function(){
         })
         return;
     })
+
+    const userName = getCookie("user_name");
+
+    if (userName) {
+        console.log("User is logged in as:", userName)
+    }
     promptButton.addEventListener("click",async function(event){
         console.log("uh")
         event.preventDefault();
