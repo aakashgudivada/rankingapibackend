@@ -23,7 +23,8 @@
         "groq-sdk": "latest",
         "helmet": "^7.2.0",
         "noblox": "^4.8.5",
-        "redis": "^5.10.0"
+        "redis": "^5.10.0",
+        "google-auth-library": "^9.0.0"
     },
     "devDependencies": {
         "nodemon": "^3.0.3"
