@@ -14,6 +14,8 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../fnd/index.html'));
 });
 
+app.use('/src', express.static(path.join(__dirname, '../src')));
+
 const aiag = new groq.Groq({
     apiKey: process.env.apikeygroq
 })
