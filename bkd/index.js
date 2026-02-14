@@ -114,7 +114,7 @@ app.get("/experienceinfo",async(req,res) =>{
             if (!response.ok){
                 return res.status(400).json({"success":false})
             }
-            const data = response.json();
+            const data = await response.json();
             return res.status(200).json({"success":true,"data":data});
         }catch(error){
             return res.status(400).json({"success":false})
