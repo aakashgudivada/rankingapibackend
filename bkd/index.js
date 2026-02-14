@@ -105,14 +105,31 @@ app.post("/post", async (req, res) => {
     }
 });
 
+app.get("/experienceinfo",async(req,res) =>{
+    const query = req.query;
+    const uid = query.id || null;
+    if (uid !== null){
+        try{
+            const response = await fetch(`https://games.roblox.com/v1/games?universeIds=${uid}`);
+            if (!response.ok){
+                return res.status(400).json({"success":false})
+            }
+            const data = response.json();
+            return res.status(200).json({"success":true,"data":data});
+        }catch(error){
+            return res.status(400).json({"success":false})
+        }
+    }
+});
+
 app.post("/save",async(req,res) =>{
     const query = req.query;
     const body = req.body;
-    const key = body.key;
+    const key = body.apiKey;
     if (!body.key){res.status(400).json("Auth failed!")};
     if (key === apikey){
-        const providedkey = query.key;
-        const value = query.value;
+        const providedkey = body.key;
+        const value = body.value;
         if (value && providedkey){
             await client.set(providedkey,value)
             res.status(200).json({"success":true,"message":"Saved the data!"})
@@ -209,15 +226,10 @@ app.post("/auth/google", async (req, res) => {
             name: payload.name,
             picture: payload.picture,
             googleId: payload.sub,
+            last_login: new Date().toISOString(),
             role: payload.email === "aakash.gudivada@gmail.com" ? "Developer" : "Regular"
         };
-        const userPayload = {
-            name: payload.name,
-            email: payload.email,
-            picture: payload.picture,
-            last_login: new Date().toISOString()
-        };
-        await client.set(`GID:${payload.sub}`, JSON.stringify(userPayload),{ex: 256000});
+        await client.set(`GID:${payload.sub}`, JSON.stringify(userDetails),{ex: 2628000});
         res.status(200).json({ success: true,user: userDetails});
     } catch (error) {
         console.error("Invalid Token:", error);

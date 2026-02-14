@@ -72,6 +72,22 @@ render([
     {
         "type": "desc",
         "content": "You can explore my popular services, projects and open-source publications here! Please do not republish or repost as their as subjective to copyright and patent reserved."
+    },
+    {
+        "type": "htitle",
+        "content": "Hi, I'm an Artificial Intelligence & Game Developer."
+    },
+    {
+        "type": "utitle",
+        "content": "You can explore my popular services, projects and open-source publications here! Please do not republish or repost as their as subjective to copyright and patent reserved."
+    },
+    {
+        "type": "title",
+        "content": "You can exido notght and patent reserved."
+    },
+    {
+        "type": "desc",
+        "content": "You can explore my popular services, projects and open-source publications here! Please do not republish or repost as their as subjective to copyright and patent reserved."
     }
 ])
 
@@ -95,7 +111,7 @@ async function loginsignin(response){
                 console.error("Missing googleId")
                 return
             }
-            document.cookie = `gid=${encodeURIComponent(data.googleId)}; path=/; max-age=2592000; SameSite=Lax; Secure`;
+            document.cookie = `gid=${encodeURIComponent(data.googleId)}; path=/; max-age=1296000; SameSite=Lax; Secure`;
             signinbutton.textContent = data.name;
             profilepicture.src = data.picture;
             roleSelector.innerHTML = data.role || "Regular";
@@ -143,7 +159,7 @@ async function getData(googleid) {
             roleSelector.innerHTML = apiResult.role || "Regular";
             loggedin = true;
         }
-    } catch (error) {
+    }catch (error) {
         console.error("Failed to fetch user data:", error);
     }
     return;
